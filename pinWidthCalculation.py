@@ -77,12 +77,19 @@ print(f"Total available widths -{width_count}")
 print(f"Width Sum -{width_sum}")
 print(f"Average Width -{average_width_detected}")
 
+# Remove noise
 for contour in contours:
     x, y, w, h = cv.boundingRect(contour)  # Get bounding box of the contour
     # Draw contour-based bounding boxes if the item's width is greater than the average detected width
     if w <= average_width_detected:
-        #cv.rectangle(annotated_image, (x, y), (x + w, y + h), (255, 0, 0), 2)
         cv.rectangle(annotated_image, (x, y), (x + w, y + h), (0, 0, 0), thickness=cv.FILLED) # remove these detections/items whose width is lesser - fill black
+
+# Detect bend - sets which have higher width than the average width.
+for contour in contours:
+    x, y, w, h = cv.boundingRect( )  # Get bounding box of the contour
+    # Draw contour-based bounding boxes if the item's width is greater than the average detected width
+    if w > average_width_detected and w > 50:
+        cv.rectangle(annotated_image, (x, y), (x + w, y + h), (255, 0, 0), 2)
 
 # Save and display the final annotated image
 timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
